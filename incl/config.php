@@ -24,7 +24,7 @@ $SCAN_NET_SETUP = '';
 // 5 = ukrainian
 // 6 = french
 // 7 = dutch
-$lang_id = 1;
+$lang_id = 0;
 
 
 // set your scanner maximum page size, and a low dpi for previews
@@ -62,6 +62,7 @@ add_page_size('A6', 105, 148);
 //add_page_size('US Legal', 216, 356);
 //add_page_size('US Ledger', 432, 279);
 //add_page_size('US Tabloid', 279, 432);
+add_page_size('ADF',0, 0);
 $DEFAULT_PAGE_SIZE = 'A4';
 
 // enable features

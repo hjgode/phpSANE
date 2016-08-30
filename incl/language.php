@@ -70,6 +70,9 @@ $lang[0] = array(
     "Download",            // 58
     "Delete",              // 59
     "scan_",               // 60
+    "Scan Modus",		   // 61
+    	"Simplex",		   // 62
+    	"Duplex",		   // 63
 );
 
 
@@ -138,6 +141,9 @@ $lang[1] = array(
     "Download",            // 58
     "Delete",              // 59
     "scan_",               // 60
+    "Scan Modus",		   // 61
+    	"Simplex",		   // 62
+    	"Duplex",		   // 63
 );
 
 

@@ -90,6 +90,18 @@ echo "
     <td class='unit_column'>{$lang[$lang_id][6]}</td>
   </tr>";
 
+echo  "<tr>
+    <td>".$lang[$lang_id][61]."</td>
+    <td class='value_column'>
+      <select name='scan_mode'>\n";
+        echo "<option selected value='simplex'>".$lang[$lang_id][62]."</option>\n";
+        echo "<option value='duplex'>".$lang[$lang_id][63]."</option>\n";
+echo "</select>
+    </td>
+    <td class='unit_column'></td>
+  </tr>";
+
+
 if ($do_brightness) {
 	echo "
   <tr>

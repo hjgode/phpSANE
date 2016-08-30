@@ -108,7 +108,25 @@
   $cmd_device = '';
   $file_save = '';
   $file_save_image = 0;
-  $cmd_scan=$SCANIMAGE." -d ".$scanner.$cmd_geometry_l.$cmd_geometry_t.$cmd_geometry_x.$cmd_geometry_y.$cmd_mode.$cmd_resolution.$cmd_brightness.$cmd_contrast.$cmd_usr_opt;
+
+  if ( isset($_POST['pagesize']) )
+  {
+    if ( $_POST['pagesize'] != "0,0") 
+    {
+      $cmd_scan=$SCANIMAGE." -d ".$scanner.$cmd_geometry_l.$cmd_geometry_t.$cmd_geometry_x.$cmd_geometry_y.$cmd_mode.$cmd_resolution.$cmd_brightness.$cmd_contrast.$cmd_usr_opt;
+    }
+    else
+    {
+      $cmd_scan=$SCANIMAGE." -d ".$scanner." -x 210mm". " "." -y 297mm".$cmd_mode.$cmd_resolution.$cmd_brightness.$cmd_contrast.$cmd_usr_opt. " --batch  --source ADF"; 
+    }
+  }
+
+  if ( isset($_POST['scan_mode']))
+  {
+    if ( $_POST['scan_mode'] == "duplex")
+      $cmd_scan .= " --ScanMode Duplex";
+  }
+  
 
   if ($error_input == 0)
   {
@@ -116,8 +134,10 @@
       $preview_images = $temp_dir."preview_".$sid.".jpg";
       $cmd_device = $SCANIMAGE." -d ".$scanner." --resolution ".$PREVIEW_DPI."dpi -l 0mm -t 0mm -x ".$MAX_SCAN_WIDTH_MM."mm -y ".$MAX_SCAN_HEIGHT_MM."mm".$cmd_mode.$cmd_brightness.$cmd_contrast.$cmd_usr_opt." | ".$PNMTOJPEG." --quality=50 > ".$preview_images;
     }
-    else if ($action_save) {
+    else if ($action_save) 
+    {
       $file_save = $save_dir.$_POST['file_name'].".".$format;
+
       if (file_exists($file_save)) {
         $file_save=$save_dir.$_POST['file_name']." ".date("Y-m-d H.i.s",time()).".".$format;
       }
