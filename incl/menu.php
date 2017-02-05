@@ -65,20 +65,35 @@ echo "</select>
   </tr>
 	<tr>
     <td>".$lang[$lang_id][14]."</td>
-    <td class='value_column'>		
+    <td class='value_column'>
       <select name='mode'>\n";
-$mode_color_index = array_search('color', array_map('strtolower', $mode_list));;
+/*    
+  echo "<option"; echo " selected"; 
+  echo " value='24bit Color' data-image='images/mode_color.png'>" . 
+  $lang[$lang_id][15]."</option>";
+  echo "<option"; echo " "; 
+  echo " value='True Gray' data-image='images/mode_gray.png''>" . 
+  $lang[$lang_id][16]."</option>";
+  echo "<option"; echo " "; 
+  echo " value='Black & White' data-image='images/mode_lineart.png'>" . 
+  $lang[$lang_id][17]."</option>";
+*/
+
+error_log("#### mode_list ".print_r($mode_list), 0);
+
+$mode_color_index = array_search('24bit Color', $mode_list);
 if($mode_color_index !== false) {
-  echo "<option"; if(strcasecmp($mode, 'color') == 0) echo " selected"; echo " value='{$mode_list[$mode_color_index]}' data-image='images/mode_color.png'>" . $lang[$lang_id][15]."</option>";
+  echo "<option"; if(strcasecmp($mode, '24bit Color') == 0) echo " selected"; echo " value='{$mode_list[$mode_color_index]}' data-image='images/mode_color.png'>" . $lang[$lang_id][15]."</option>";
 }
-$mode_gray_index = array_search('gray', array_map('strtolower', $mode_list));
+$mode_gray_index = array_search('True Gray', $mode_list);
 if($mode_gray_index !== false) {
-  echo "<option"; if(strcasecmp($mode, 'gray') == 0) echo " selected"; echo " value='{$mode_list[$mode_gray_index]}' data-image='images/mode_gray.png'>" . $lang[$lang_id][16]."</option>";
+  echo "<option"; if(strcasecmp($mode, 'True Gray') == 0) echo " selected"; echo " value='{$mode_list[$mode_gray_index]}' data-image='images/mode_gray.png'>" . $lang[$lang_id][16]."</option>";
 }
-$mode_lineart_index = array_search('lineart', array_map('strtolower', $mode_list));
+$mode_lineart_index = array_search('Black & White', $mode_list);
 if($mode_lineart_index !== false) {
-  echo "<option"; if(strcasecmp($mode, 'lineart') == 0) echo " selected"; echo " value='{$mode_list[$mode_lineart_index]}' data-image='images/mode_lineart.png'>" . $lang[$lang_id][17]."</option>";
+  echo "<option"; if(strcasecmp($mode, 'Black & White') == 0) echo " selected"; echo " value='{$mode_list[$mode_lineart_index]}' data-image='images/mode_lineart.png'>" . $lang[$lang_id][17]."</option>";
 }
+
 echo "
 	    </select>
     </td>
@@ -89,18 +104,6 @@ echo "
 		<td class='value_column'>\n".html_selectbox('resolution', $resolution_list, $resolution)."</td>
     <td class='unit_column'>{$lang[$lang_id][6]}</td>
   </tr>";
-
-echo  "<tr>
-    <td>".$lang[$lang_id][61]."</td>
-    <td class='value_column'>
-      <select name='scan_mode'>\n";
-        echo "<option selected value='simplex'>".$lang[$lang_id][62]."</option>\n";
-        echo "<option value='duplex'>".$lang[$lang_id][63]."</option>\n";
-echo "</select>
-    </td>
-    <td class='unit_column'></td>
-  </tr>";
-
 
 if ($do_brightness) {
 	echo "

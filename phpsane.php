@@ -103,11 +103,10 @@
       $("#pagesize").change(function(){
         var page_width_mm = parseFloat(this.value.split(",")[0]);
         var page_height_mm = parseFloat(this.value.split(",")[1]);
-        if ((page_width_mm >= 0) && (page_height_mm >= 0)) 
-        {
+        if ((page_width_mm > 0) && (page_height_mm > 0)) {
           var preview_width_mm = <?php echo $PREVIEW_WIDTH_MM ?>;
 
-          $('#pos_x').val(page_width_mm!=0?preview_width_mm - page_width_mm:0);
+          $('#pos_x').val(preview_width_mm - page_width_mm);
           $('#pos_y').val(0);
           $('#geometry_x').val(preview_width_mm);
           $('#geometry_y').val(page_height_mm);

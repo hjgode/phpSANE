@@ -24,17 +24,17 @@ $SCAN_NET_SETUP = '';
 // 5 = ukrainian
 // 6 = french
 // 7 = dutch
-$lang_id = 0;
+$lang_id = 1;
 
 
 // set your scanner maximum page size, and a low dpi for previews
 $PREVIEW_WIDTH_MM   = 215;
-$PREVIEW_HEIGHT_MM  = 297;
-$PREVIEW_DPI        = 75;
+$PREVIEW_HEIGHT_MM  = 355;
+$PREVIEW_DPI        = 100;
 
 // set the maximum scan size
 $MAX_SCAN_WIDTH_MM  = 215;
-$MAX_SCAN_HEIGHT_MM = 296.926;
+$MAX_SCAN_HEIGHT_MM = 355;
 
 // scale factor to map preview image -> scanner co-ords
 $PREVIEW_SCALE = 2;
@@ -62,7 +62,6 @@ add_page_size('A6', 105, 148);
 //add_page_size('US Legal', 216, 356);
 //add_page_size('US Ledger', 432, 279);
 //add_page_size('US Tabloid', 279, 432);
-add_page_size('ADF',0, 0);
 $DEFAULT_PAGE_SIZE = 'A4';
 
 // enable features
@@ -87,7 +86,7 @@ $do_file_highlight_new = true;
 $do_format_pnm = true;
 $do_format_jpg = true;
 $do_format_tif = true;
-$do_format_bmp = true;
+$do_format_bmp = false;//true;
 $do_format_png = true;
 $do_format_txt = true;
 $do_format_pdf = true;
@@ -98,8 +97,8 @@ $do_format_pdf = true;
 // system config
 // =============
 $SCANIMAGE = "/usr/bin/scanimage"; //scanimage binary (sane)
-$GOCR      = "/opt/bin/gocr";      //optional ocr binary
-$PDFUNITE  = "/usr/local/bin/pdfunite"; //optional PDF merge binary
+$GOCR      = "/usr/bin/gocr";      //optional ocr binary
+$PDFUNITE  = "/usr/bin/pdfunite"; //optional PDF merge binary
 $PNMTOJPEG = "/usr/bin/pnmtojpeg"; //netpbm pnm to jpeg conversion binary
 $PNMTOTIFF = "/usr/bin/pnmtotiff"; //netpbm pnm to tiff conversion binary
 $PNMTOBMP  = "/usr/bin/ppmtobmp";  //netpbm ppm to bmp conversion binary
@@ -108,25 +107,25 @@ $CONVERT   = "/usr/bin/convert";   //ImageMagick convert binary
 $IDENTIFY  = "/usr/bin/identify";  //ImageMagick binary used to test for PDF support
 if(php_uname('s') == 'FreeBSD') {
   //FreeBSD
-  $SCANIMAGE = "/usr/local/bin/scanimage";
-  $GOCR      = "/usr/local/bin/gocr";
-  $PDFUNITE  = "/usr/local/bin/pdfunite";
+  $SCANIMAGE = "/usr/bin/scanimage";
+  $GOCR      = "/usr/bin/gocr";
+  $PDFUNITE  = "/usr/bin/pdfunite";
   $PNMTOJPEG = "/usr/bin/pnmtojpeg";
-  $PNMTOTIFF = "/usr/local/bin/pnmtotiff";
-  $PNMTOBMP  = "/usr/local/bin/ppmtobmp";
-  $PNMTOPNG  = "/usr/local/bin/pnmtopng";
-  $CONVERT   = "/usr/local/bin/convert";
-  $IDENTIFY  = "/usr/local/bin/identify";
+  $PNMTOTIFF = "/usr/bin/pnmtotiff";
+  $PNMTOBMP  = "/usr/bin/ppmtobmp";
+  $PNMTOPNG  = "/usr/bin/pnmtopng";
+  $CONVERT   = "/usr/bin/convert";
+  $IDENTIFY  = "/usr/bin/identify";
 }
 else if(stripos(exec('uname -a'), 'synology') !== FALSE) {
   //Synology Disk Station
   $SCANIMAGE = "/opt/bin/scanimage";
   $GOCR      = "/opt/bin/gocr";
-  $PDFUNITE  = "/usr/local/bin/pdfunite";
-  $PNMTOJPEG = "/usr/local/netpbm/bin/pnmtojpeg";
-  $PNMTOTIFF = "/usr/local/netpbm/bin/pnmtotiff";
-  $PNMTOBMP  = "/usr/local/netpbm/bin/ppmtobmp";
-  $PNMTOPNG  = "/usr/local/netpbm/bin/pnmtopng";
+  $PDFUNITE  = "/usr/bin/pdfunite";
+  $PNMTOJPEG = "/usr/bin/pnmtojpeg";
+  $PNMTOTIFF = "/usr/bin/pnmtotiff";
+  $PNMTOBMP  = "/usr/bin/ppmtobmp";
+  $PNMTOPNG  = "/usr/bin/pnmtopng";
   $CONVERT   = "/opt/bin/convert";
   $IDENTIFY  = "/opt/bin/identify";
 }
@@ -173,10 +172,11 @@ $sid = time();
 $preview_images = "./images/scan.jpg";
 $page_size = 'A4';
 $format = "jpg";
-$mode = "Color";  // Lineart|Gray|Color
-$resolution = 300;
+$mode = "True Gray";  // Lineart|Gray|Color
+$resolution = 150;
 $brightness = -1;
 $contrast = -1;
+//$usr_opt = " --jpeg-quality 0";
 $usr_opt = "";
 $pos_x = 0;
 $pos_y = 0;
@@ -262,7 +262,7 @@ if($scanner_ok) {
   // allowed resolutions
   if($scanner_known) {
     // read scanner configuration from file
-    $mode_list = get_scanner_mode_options($scanner_name);
+    $mode_list = array("True Gray", "24bit Color", "Black & White");// get_scanner_mode_options($scanner_name);
     $mode_default = get_scanner_mode_default($scanner_name);
     $resolution_list = get_scanner_resolution_options($scanner_name);
     $resolution_max = (int)end($resolution_list);

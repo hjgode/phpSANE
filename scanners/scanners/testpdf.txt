@@ -1,0 +1,3 @@
+/usr/bin/scanimage -d "net:localhost:brother2:bus5;dev1" -l 5mm -t 0mm -x 210mm -y 296.926mm --mode "True Gray" --resolution 150dpi --format=tiff | /usr/bin/convert - -compress jpeg -quality 100 -density 150 pdf:- > "./scan_2017-02-04 17.50.52.pdf"
+
+/usr/bin/scanimage -d "net:localhost:brother2:bus5;dev1" -l 5mm -t 0mm -x 210mm -y 296.926mm --mode "True Gray" --resolution 150dpi  --format=tiff | /usr/bin/gocr - > "./output/scan_2017-02-04 20.03.45.txt"

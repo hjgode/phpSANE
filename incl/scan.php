@@ -108,55 +108,37 @@
   $cmd_device = '';
   $file_save = '';
   $file_save_image = 0;
+  $cmd_scan=$SCANIMAGE." -d ".$scanner.$cmd_geometry_l.$cmd_geometry_t.$cmd_geometry_x.$cmd_geometry_y.$cmd_mode.$cmd_resolution.$cmd_brightness.$cmd_contrast.$cmd_usr_opt;
 
-  if ( isset($_POST['pagesize']) )
-  {
-    if ( $_POST['pagesize'] != "0,0") 
-    {
-      $cmd_scan=$SCANIMAGE." -d ".$scanner.$cmd_geometry_l.$cmd_geometry_t.$cmd_geometry_x.$cmd_geometry_y.$cmd_mode.$cmd_resolution.$cmd_brightness.$cmd_contrast.$cmd_usr_opt;
-    }
-    else
-    {
-      $cmd_scan=$SCANIMAGE." -d ".$scanner." -x 210mm". " "." -y 297mm".$cmd_mode.$cmd_resolution.$cmd_brightness.$cmd_contrast.$cmd_usr_opt. " --batch  --source ADF"; 
-    }
-  }
-
-  if ( isset($_POST['scan_mode']))
-  {
-    if ( $_POST['scan_mode'] == "duplex")
-      $cmd_scan .= " --ScanMode Duplex";
-  }
-  
+error_log("#### cmd_scan ".$cmd_scan, 0);
 
   if ($error_input == 0)
   {
     if ($action_preview) {
       $preview_images = $temp_dir."preview_".$sid.".jpg";
-      $cmd_device = $SCANIMAGE." -d ".$scanner." --resolution ".$PREVIEW_DPI."dpi -l 0mm -t 0mm -x ".$MAX_SCAN_WIDTH_MM."mm -y ".$MAX_SCAN_HEIGHT_MM."mm".$cmd_mode.$cmd_brightness.$cmd_contrast.$cmd_usr_opt." | ".$PNMTOJPEG." --quality=50 > ".$preview_images;
+      $cmd_device = $SCANIMAGE." -d ".$scanner." --resolution ".$PREVIEW_DPI."dpi -l 0mm -t 0mm -x ".$MAX_SCAN_WIDTH_MM."mm -y ".$MAX_SCAN_HEIGHT_MM."mm".$cmd_mode.$cmd_brightness.$cmd_contrast.$cmd_usr_opt."| /usr/bin/pamfixtrunc | ".$PNMTOJPEG." --quality=50 > ".$preview_images;
     }
-    else if ($action_save) 
-    {
+    else if ($action_save) {
       $file_save = $save_dir.$_POST['file_name'].".".$format;
-
       if (file_exists($file_save)) {
         $file_save=$save_dir.$_POST['file_name']." ".date("Y-m-d H.i.s",time()).".".$format;
       }
       $file_save_image = 1;
       
       if ($format == "jpg") {
-        $cmd_device = $cmd_scan." | {$PNMTOJPEG} --quality=100 > \"".$file_save."\"";
+        $cmd_device = $cmd_scan." | /usr/bin/pamfixtrunc | {$PNMTOJPEG} --quality=100 > \"".$file_save."\"";
       }
       if ($format == "pnm") {
-        $cmd_device = $cmd_scan." > \"".$file_save."\"";
+        $cmd_device = $cmd_scan."| /usr/bin/pamfixtrunc > \"".$file_save."\"";
       }
       if ($format == "tif") {
-        $cmd_device = $cmd_scan." | {$PNMTOTIFF} > \"".$file_save."\"";
+        $cmd_device = $cmd_scan."| /usr/bin/pamfixtrunc | {$PNMTOTIFF} > \"".$file_save."\"";
       }
       if ($format == "bmp") {
-        $cmd_device = $cmd_scan." | {$PNMTOBMP} > \"".$file_save."\"";
+        $cmd_device = $cmd_scan."| /usr/bin/pamfixtrunc | {$PNMTOBMP} > \"".$file_save."\"";
       }
       if ($format == "png") {
-        $cmd_device = $cmd_scan." | {$PNMTOPNG} > \"".$file_save."\"";
+        $cmd_device = $cmd_scan."| /usr/bin/pamfixtrunc | {$PNMTOPNG} > \"".$file_save."\"";
       }
       if ($format == "pdf") {
         //$cmd_device = $cmd_scan." | {$CONVERT} pnm:- -compress jpeg -quality 100 -density {$resolution} pdf:- > \"".$file_save."\"";
@@ -165,13 +147,17 @@
           convert: unable to read image data `-' @ error/pnm.c/ReadPNMImage/766.
           convert: no images defined `pdf:-' @ error/convert.c/ConvertImageCommand/3044.
         */
-        $cmd_device = $cmd_scan." | {$CONVERT} - -compress jpeg -quality 100 -density {$resolution} pdf:- > \"".$file_save."\"";
+	//use --format=tiff instead of default pnm
+        $cmd_device = $cmd_scan." --format=tiff | {$CONVERT} - -compress jpeg -quality 100 -density {$resolution} pdf:- > \"".$file_save."\"";
       }
       if ($format == "txt") {
-        $cmd_device = $cmd_scan." | ".$GOCR." - > \"".$file_save."\"";
+        // does not work as PNM output of scanimage is corrupted
+        $cmd_device = $cmd_scan."| /usr/bin/pamfixtrunc | ".$GOCR." - > \"".$file_save."\"";
       }
     }
   }
+
+error_log("#### cmd_device ".$cmd_device, 0);
   
   if ($action_deletefiles && $do_file_delete) {
     if(isset($_POST['selected_files'])) {
@@ -187,10 +173,13 @@
   ////////////////////////////////////////////////////////////////////////
   // perform actions required
   if ($cmd_device !== '') {
+    echo "document.body.style.cursor='wait'";
     $scan_yes=`$cmd_device`;
   } else {
     $cmd_device = $lang[$lang_id][39];
   }
+
+  echo "document.body.style.cursor='auto'";
 
   //merge files
   if ($action_save && $append_file !== '') {
