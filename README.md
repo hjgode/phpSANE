@@ -11,9 +11,9 @@ Made it work for my Brother MFC-235C
 
 * The pnm output of the scanimage command for the brother is corrupted. I added a pipe into pamfixtrunc in the cmd used to generate files or preview (scan.php)
 
-* changed config.php to meet the scanners featutres. I.e. the lowest res supported is 100 and not 75.
+* changed config.php to meet the scanners features. I.e. the lowest res supported is 100 and not 75.
 
-* although scanimage says the scanner supports brightness and contrast, I did not fix these parts.
+* although scanimage says the scanner supports brightness and contrast, phpSane was unable to read the correct values. I hardcoded  brightness and contrast default, min and max values (0,-50, 50).
 
 ## brother-mfc-235c-usb-scanner.ini
 
