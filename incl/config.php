@@ -269,13 +269,13 @@ if($scanner_ok) {
     $resolution_min = (int)reset($resolution_list);
     $resolution_default = get_scanner_resolution_default($scanner_name);
     $brightness_supported = strtolower(get_scanner_brightness_supported($scanner_name)) === 'true';
-    $brightness_default = (int)get_scanner_brightness_default($scanner_name);
-    $brightness_minimum = (int)get_scanner_brightness_minimum($scanner_name);
-    $brightness_maximum = (int)get_scanner_brightness_maximum($scanner_name);
+    $brightness_default = 0;//(int)get_scanner_brightness_default($scanner_name);
+    $brightness_minimum = -50;//(int)get_scanner_brightness_minimum($scanner_name);
+    $brightness_maximum = 50;//(int)get_scanner_brightness_maximum($scanner_name);
     $contrast_supported = strtolower(get_scanner_contrast_supported($scanner_name)) === 'true';
-    $contrast_default = (int)get_scanner_contrast_default($scanner_name);
-    $contrast_minimum = (int)get_scanner_contrast_minimum($scanner_name);
-    $contrast_maximum = (int)get_scanner_contrast_maximum($scanner_name);
+    $contrast_default = 0;//(int)get_scanner_contrast_default($scanner_name);
+    $contrast_minimum = -50;//(int)get_scanner_contrast_minimum($scanner_name);
+    $contrast_maximum = 50;//(int)get_scanner_contrast_maximum($scanner_name);
   }
   else {
     // build configuration from scanimage output
