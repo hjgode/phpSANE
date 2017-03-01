@@ -15,6 +15,12 @@ Made it work for my Brother MFC-235C
 
 * although scanimage says the scanner supports brightness and contrast, phpSane was unable to read the correct values. I hardcoded  brightness and contrast default, min and max values (0,-50, 50).
 
+* fixed download php. The overwrite var and use is not useful.
+
+* changed Download button text to Download as ZIP
+
+* changed file list File to File (click to load) for clarification
+
 ## brother-mfc-235c-usb-scanner.ini
 
 	mode:Black & White;Gray [Error Diffusion];True Gray;24bit Color|True Gray
