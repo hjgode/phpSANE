@@ -147,7 +147,7 @@
 		  $("#mode_select").change(function(){
 			var modeValue = this.value;
 			<?php error_log("+++ #mode_select changed: ", 0); ?>
-			if(modeValue.indexOf('Color')>-1){
+			if(modeValue.indexOf('Color')>-1 || modeValue.indexOf('Black')>-1){
 			 $("#brightness_slider").hide();
 			 $("#contrast_slider").hide();
 			 $("#brightness").hide();

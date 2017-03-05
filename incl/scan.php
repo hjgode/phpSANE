@@ -99,7 +99,8 @@
     }
   }
 
-if( stripos($mode, "Color") ){
+if( stripos($mode, "Color")!==false or stripos($mode, "Black")!==false ){
+  error_log("--- disabling brightness and contrast", 0);
   $cmd_brightness="";
   $cmd_contrast="";
 } //if $mode 
