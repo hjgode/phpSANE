@@ -141,28 +141,54 @@
         $("#menuForm").submit();
       });
       
-      //brightness menu option
-      $("#brightness_slider").noUiSlider({
-          range: [<?php echo $brightness_minimum . ',' . $brightness_maximum ?>]
-         ,start: <?php echo $brightness . "\r\n" ?>
-         ,step: 1
-         ,handles: 1
-         ,slide: function(){
-            var values = $(this).val();
-            $("#brightness").val(values);
-         }
-      });
-      $("#brightness").change(function() {
-        var brightnessValue = parseInt(this.value);
-        if(isNaN(brightnessValue)) {
-          this.value = $("#brightness_slider").val();
-        }
-        else {
-          $("#brightness_slider").val(brightnessValue);
-          this.value = $("#brightness_slider").val();
-        }
-      });
-      
+	  //changes on mode change
+	  $(document).ready(
+	    function() { //ensure DOM is loaded
+		  $("#mode_select").change(function(){
+			var modeValue = this.value;
+			<?php error_log("+++ #mode_select changed: ", 0); ?>
+			if(modeValue.indexOf('Color')>-1){
+			 $("#brightness_slider").hide();
+			 $("#contrast_slider").hide();
+			 $("#brightness").hide();
+			 $("#contrast").hide();
+			 $("#brightness_settings").hide();
+			 $("#contrast_settings").hide();
+			}
+			else{
+			 $("#brightness_slider").show();
+			 $("#contrast_slider").show();
+			 $("#brightness").show();
+			 $("#contrast").show();
+			 $("#brightness_settings").show();
+			 $("#contrast_settings").show();
+			}			
+		  });
+	  });
+	  
+		  //brightness menu option
+		  $("#brightness_slider").noUiSlider({
+			  range: [<?php echo $brightness_minimum . ',' . $brightness_maximum ?>]
+			 ,start: <?php echo $brightness . "\r\n" ?>
+			 ,step: 1
+			 ,handles: 1
+			 ,slide: function(){
+				var values = $(this).val();
+				$("#brightness").val(values);
+			 }
+		  });
+	  
+		  $("#brightness").change(function() {
+			var brightnessValue = parseInt(this.value);
+			if(isNaN(brightnessValue)) {
+			  this.value = $("#brightness_slider").val();
+			}
+			else {
+			  $("#brightness_slider").val(brightnessValue);
+			  this.value = $("#brightness_slider").val();
+			}
+		  });
+
       //contrast menu option
       $("#contrast_slider").noUiSlider({
           range: [<?php echo $contrast_minimum . ',' . $contrast_maximum ?>]

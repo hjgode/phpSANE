@@ -98,7 +98,12 @@
       scan_error($scan_output, $error_input, $lang_error);
     }
   }
-  
+
+if( stripos($mode, "Color") ){
+  $cmd_brightness="";
+  $cmd_contrast="";
+} //if $mode 
+ 
   $cmd_usr_opt=" " . $usr_opt;
 
   ////////////////////////////////////////////////////////////////////////

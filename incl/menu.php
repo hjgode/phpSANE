@@ -66,7 +66,7 @@ echo "</select>
 	<tr>
     <td>".$lang[$lang_id][14]."</td>
     <td class='value_column'>
-      <select name='mode'>\n";
+      <select name='mode' id='mode_select'>\n";
 /*    
   echo "<option"; echo " selected"; 
   echo " value='24bit Color' data-image='images/mode_color.png'>" . 
@@ -79,7 +79,7 @@ echo "</select>
   $lang[$lang_id][17]."</option>";
 */
 
-error_log("#### mode_list ".print_r($mode_list), 0);
+//error_log("#### mode_list ".print_r($mode_list), 0);
 
 $mode_color_index = array_search('24bit Color', $mode_list);
 if($mode_color_index !== false) {
@@ -104,28 +104,37 @@ echo "
 		<td class='value_column'>\n".html_selectbox('resolution', $resolution_list, $resolution)."</td>
     <td class='unit_column'>{$lang[$lang_id][6]}</td>
   </tr>";
-
+  
 if ($do_brightness) {
 	echo "
   <tr>
-    <td>".$lang[$lang_id][22]."</td>
+  
+    <td><div id='brightness_settings'>".$lang[$lang_id][22]."</div></td>
     <td class='value_column'>
-      <div id='brightness_slider' class='noUiSlider'></div>
-      <input id='brightness' type='text' value='".$brightness."' name='brightness' maxlength='4'>
+	  <div id='brightness_settings'>
+        <div id='brightness_slider' class='noUiSlider'></div>
+        <input id='brightness' type='text' value='".$brightness."' name='brightness' maxlength='4'>
+	  </div>
     </td>
-    <td class='unit_column'>{$lang[$lang_id][7]}</td>
+    <td class='unit_column'>
+	  <div id='brightness_settings'>{$lang[$lang_id][7]}</div>
+	</td>
   </tr>";
 }
 
 if ($do_contrast) {
 	echo "
   <tr>
-    <td>".$lang[$lang_id][23]."</td>
+    <td><div id='contrast_settings'>".$lang[$lang_id][23]."</div></td>
     <td class='value_column'>
-      <div id='contrast_slider' class='noUiSlider'></div>
-      <input id='contrast' type='text' value='".$contrast."' name='contrast' maxlength='3'>
+	  <div id='contrast_settings'>
+        <div id='contrast_slider' class='noUiSlider'></div>
+        <input id='contrast' type='text' value='".$contrast."' name='contrast' maxlength='3'>
+	  </div>
     </td>
-    <td class='unit_column'>{$lang[$lang_id][7]}</td>
+    <td class='unit_column'>
+	  <div id='contrast_settings'>".$lang[$lang_id][7]."</div>
+	</td>
   </tr>";
 }
 
